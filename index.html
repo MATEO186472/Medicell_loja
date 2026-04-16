@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicell LOJA - Premium Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Pantalla de carga */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .logo-animation {
+            width: 140px;
+            height: 140px;
+            background: #38bdf8;
+            border-radius: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 60px rgba(56, 189, 248, 0.5);
+            animation: pulse-logo 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 1)), 
+                              url('https://images.unsplash.com/photo-1727118220970-d790f968600d?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-card {
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(56, 189, 248, 0.5);
+        }
+
+        .new-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .new-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .badge-live {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        #qrcode {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .imei-badge {
+            background: linear-gradient(45deg, #fbbf24, #d97706);
+            color: #000;
+            font-weight: 800;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+        }
+
+        .accessory-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .accessory-item:active {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Pantalla de Bienvenida (Splash) -->
+    <div id="splash-screen">
+        <div class="logo-animation mb-6">
+            <i class="fas fa-mobile-alt text-white text-7xl"></i>
+        </div>
+        <h2 class="text-3xl font-bold tracking-tighter">MEDICELL <span class="text-sky-400 font-extrabold italic">LOJA</span></h2>
+        <p class="text-slate-400 text-sm mt-4 animate-pulse uppercase tracking-[0.2em]">Premium Apple Store</p>
+    </div>
+
+    <!-- Navegación Superior -->
+    <nav class="p-4 flex justify-between items-center sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center shadow-lg shadow-sky-500/30">
+                <i class="fas fa-mobile-alt text-white"></i>
+            </div>
+            <span class="font-bold text-xl tracking-tight uppercase">MEDICELL <span class="text-sky-400 font-extrabold italic">LOJA</span></span>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="showSection('qr-modal')" class="bg-white/10 text-white p-3 rounded-full shadow-lg active:scale-90 transition">
+                <i class="fas fa-qrcode"></i>
+            </button>
+            <button onclick="shareCatalog()" class="bg-green-500 text-white p-3 rounded-full shadow-lg active:scale-90 transition">
+                <i class="fas fa-share-nodes"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow overflow-y-auto pb-32">
+        
+        <!-- SECCIÓN: INICIO (HOME) -->
+        <section id="home" class="transition-all duration-500">
+            <div class="px-6 pt-6">
+                <!-- Banner Tarjetas -->
+                <div class="glass-card p-4 border-sky-500/20 mb-4 bg-gradient-to-r from-slate-800 to-slate-900 shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-sky-400 font-bold uppercase tracking-widest">Métodos de Pago</span>
+                            <h3 class="text-sm font-bold text-white">Difiérelo con tu Tarjeta Favorita</h3>
+                        </div>
+                        <div class="flex gap-2 text-xl text-slate-400">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                            <i class="fab fa-cc-amex"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-4 flex items-center gap-4 border-sky-500/20">
+                    <img src="https://ui-avatars.com/api/?name=Medicell+Loja&background=38bdf8&color=fff&bold=true" class="w-14 h-14 rounded-2xl shadow-lg border-2 border-sky-500/50" alt="Avatar">
+                    <div>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-tight">¡Bienvenido a Medicell! 👋</h3>
+                        <p class="text-[11px] text-slate-400 leading-tight">Equipos Apple con garantía de por vida en IMEIS. Loja - Ecuador.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-bg h-[400px] flex flex-col justify-end p-6 mb-4 mt-4">
+                <div class="glass-card p-6 text-center border-sky-500/30 shadow-2xl">
+                    <h1 class="text-3xl font-bold mb-1 uppercase tracking-tighter">Tu iPhone <span class="gradient-text">Soñado</span></h1>
+                    <p class="text-slate-200 text-sm mb-6 font-medium">"Y todos los cell que tú sueñes..."</p>
+                    
+                    <div class="flex justify-center mb-4">
+                        <div class="imei-badge px-4 py-1.5 rounded-full text-[10px] flex items-center gap-2 animate-bounce uppercase">
+                            <i class="fas fa-shield-halved"></i>
+                            Garantía de IMEIS de por vida
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="showSection('catalog')" class="flex-1 bg-sky-500 hover:bg-sky-600 p-4 rounded-2xl flex items-center justify-center gap-2 transition font-bold text-xs uppercase shadow-lg shadow-sky-500/20">
+                            <i class="fas fa-bolt"></i> Venta Inmediata
+                        </button>
+                        <button onclick="showSection('order')" class="flex-1 bg-white/10 hover:bg-white/20 p-4 rounded-2xl flex items-center justify-center gap-2 border border-white/5 font-bold text-xs uppercase">
+                            <i class="fas fa-clock text-sky-400"></i> Bajo Pedido
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: STOCK (DINÁMICO) -->
+        <section id="catalog" class="hidden p-6 transition-all duration-500">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold flex items-center gap-2 uppercase tracking-tight">
+                    <span class="w-2 h-8 bg-green-500 rounded-full"></span> Venta Inmediata
+                </h2>
+                <span class="badge-live text-[10px] font-bold px-2 py-1 rounded-full uppercase">En Stock</span>
+            </div>
+            
+            <div id="stock-container" class="space-y-8">
+                <!-- Se llena automáticamente con la lista de abajo en el script -->
+            </div>
+
+            <!-- Accesorios -->
+            <div class="pt-10">
+                <div class="flex items-center gap-3 mb-4">
+                    <h3 class="text-xl font-bold uppercase tracking-tighter">Accesorios</h3>
+                    <div class="flex-grow h-[1px] bg-white/10"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-3">
+                    <div onclick="contactWhatsApp('Deseo consultar Cases Premium')" class="accessory-item p-4 rounded-2xl flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-sky-500/20 rounded-xl flex items-center justify-center text-sky-400">
+                                <i class="fas fa-mobile"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Cases & Fundas</h4>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest">Silicone • Cuero • Blindados</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-600 text-xs"></i>
+                    </div>
+
+                    <div onclick="contactWhatsApp('Deseo información sobre Cargadores Originales')" class="accessory-item p-4 rounded-2xl flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-sky-500/20 rounded-xl flex items-center justify-center text-sky-400">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm">Cargadores</h4>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest">Originales Apple • 20W</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-600 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: BAJO PEDIDO -->
+        <section id="order" class="hidden p-6 transition-all duration-500">
+             <h2 class="text-2xl font-bold mb-2 uppercase tracking-tight flex items-center gap-2">
+                <i class="fas fa-sparkles text-sky-400"></i> Bajo Pedido
+            </h2>
+            <p class="text-slate-400 text-xs mb-6 italic">Traemos cualquier modelo directamente de USA para ti.</p>
+            <div class="glass-card p-6 space-y-6">
+                <div>
+                    <label class="text-[10px] font-bold text-sky-400 uppercase mb-2 block">Selecciona el Modelo</label>
+                    <select id="request-model" class="w-full p-4 rounded-xl font-bold text-sm appearance-none cursor-pointer bg-slate-800 border border-white/10 text-white">
+                        <optgroup label="SERIE IPHONE 17 (PRÓXIMAMENTE)">
+                            <option value="iPhone 17 Pro Max">iPhone 17 Pro Max</option>
+                            <option value="iPhone 17 Pro">iPhone 17 Pro</option>
+                            <option value="iPhone 17 Plus">iPhone 17 Plus</option>
+                            <option value="iPhone 17 Normal">iPhone 17 Normal</option>
+                        </optgroup>
+                        <optgroup label="SERIE IPHONE 16">
+                            <option value="iPhone 16 Pro Max">iPhone 16 Pro Max</option>
+                            <option value="iPhone 16 Pro">iPhone 16 Pro</option>
+                            <option value="iPhone 16 Plus">iPhone 16 Plus</option>
+                            <option value="iPhone 16 Normal">iPhone 16 Normal</option>
+                        </optgroup>
+                        <optgroup label="SERIE IPHONE 15">
+                            <option value="iPhone 15 Pro Max">iPhone 15 Pro Max</option>
+                            <option value="iPhone 15 Pro">iPhone 15 Pro</option>
+                            <option value="iPhone 15 Plus">iPhone 15 Plus</option>
+                            <option value="iPhone 15 Normal">iPhone 15 Normal</option>
+                        </optgroup>
+                        <optgroup label="MODELOS ANTERIORES">
+                            <option value="iPhone 14 Pro Max">iPhone 14 Pro Max</option>
+                            <option value="iPhone 13 Pro Max">iPhone 13 Pro Max</option>
+                            <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+                            <option value="iPhone 11 Normal">iPhone 11 Normal</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-sky-400 uppercase mb-2 block">Capacidad deseada</label>
+                    <div class="flex gap-2">
+                        <button onclick="setCap('128GB')" class="cap-btn flex-1 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold transition">128GB</button>
+                        <button onclick="setCap('256GB')" class="cap-btn flex-1 p-3 rounded-xl bg-sky-500 text-white text-xs font-bold transition">256GB</button>
+                        <button onclick="setCap('512GB')" class="cap-btn flex-1 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold transition">512GB</button>
+                    </div>
+                </div>
+                <button onclick="sendRequest()" class="w-full bg-sky-500 hover:bg-sky-600 py-5 rounded-2xl font-bold text-sm uppercase transition active:scale-95 shadow-lg shadow-sky-500/20">
+                    <i class="fab fa-whatsapp mr-2"></i> Consultar Precio
+                </button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: UBICACIÓN -->
+        <section id="contact" class="hidden p-6 transition-all duration-500">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2 uppercase tracking-tight"><i class="fas fa-store text-sky-400"></i> Ubicación</h2>
+            <div class="space-y-6">
+                <!-- Mapa de Loja -->
+                <div class="h-64 rounded-3xl overflow-hidden border border-white/10 shadow-lg">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.28912534887!2d-79.20645602410313!3d-3.998394995975432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91cb4806d2000001%3A0x6d9006e89a6671e6!2sLoja!5e0!3m2!1ses!2sec!4v1700000000000!5m2!1ses!2sec" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                
+                <div class="glass-card p-6 border-white/5 text-center">
+                    <p class="text-sm text-slate-200 mb-8 leading-relaxed">
+                        Epiclachima Entre José Antonio Eguiguren Y Colón. <br> 
+                        <span class="text-sky-400 font-bold italic">A Lado de “Steward Gym”</span>
+                    </p>
+                    <div class="flex justify-center gap-6">
+                        <a href="https://instagram.com/medicell_loja" target="_blank" class="w-16 h-16 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition">
+                            <i class="fab fa-instagram text-white text-3xl"></i>
+                        </a>
+                        <a href="https://wa.me/593982336355" target="_blank" class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition">
+                            <i class="fab fa-whatsapp text-white text-3xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal QR Compartir -->
+        <section id="qr-modal" class="hidden p-6 flex flex-col items-center">
+            <div class="glass-card p-8 flex flex-col items-center gap-6 border-sky-500/50">
+                <h3 class="text-sm font-bold uppercase tracking-widest text-sky-400">Comparte el Catálogo</h3>
+                <div id="qrcode"></div>
+                <button onclick="showSection('home')" class="bg-white/10 px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest">Cerrar</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Barra de Navegación Inferior -->
+    <nav class="fixed bottom-0 left-0 right-0 glass-card mx-4 my-4 p-2 flex justify-around items-center shadow-2xl z-50 ring-1 ring-white/10">
+        <button onclick="showSection('home')" class="nav-btn flex flex-col items-center p-2 text-sky-400" data-section="home">
+            <i class="fas fa-house text-lg"></i>
+            <span class="text-[8px] mt-1 font-bold">Inicio</span>
+        </button>
+        <button onclick="showSection('catalog')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="catalog">
+            <i class="fas fa-mobile-screen text-lg"></i>
+            <span class="text-[8px] mt-1 font-bold">Stock</span>
+        </button>
+        <button onclick="showSection('order')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="order">
+            <i class="fas fa-clock text-lg"></i>
+            <span class="text-[8px] mt-1 font-bold">Pedidos</span>
+        </button>
+        <button onclick="showSection('contact')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="contact">
+            <i class="fas fa-map-location-dot text-lg"></i>
+            <span class="text-[8px] mt-1 font-bold">Ubicación</span>
+        </button>
+    </nav>
+
+    <script>
+        const WHATSAPP_NUMBER = "593982336355";
+        let selectedCap = "256GB";
+
+        /** * PRODUCTOS EN STOCK DEFINITIVOS
+         * Aquí es donde agregas o quitas celulares. 
+         * Solo copia un bloque {} y pégalo debajo.
+         */
+        const productosStock = [
+            {
+                nombre: "16 Pro Max 256GB",
+                precio: "980",
+                color: "Desert Titanium",
+                salud: "92%",
+                version: "eSIM",
+                incluye: "Caja y Cable",
+                imagen: "https://images.unsplash.com/photo-1727118220970-d790f968600d?q=80&w=1000&auto=format&fit=crop",
+                isNew: true,
+                isPromo: false
+            },
+            {
+                nombre: "15 Pro Max 256GB",
+                precio: "785",
+                color: "Azul Titanium",
+                salud: "89%",
+                version: "eSIM",
+                incluye: "Caja y Cable",
+                imagen: "https://images.unsplash.com/photo-1696429311145-98380892019b?q=80&w=1000&auto=format&fit=crop",
+                isNew: false,
+                isPromo: true
+            },
+            {
+                nombre: "15 Pro 128GB",
+                precio: "690",
+                color: "Natural Titanium",
+                salud: "91%",
+                version: "eSIM",
+                incluye: "Cable",
+                imagen: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1000&auto=format&fit=crop",
+                isNew: false,
+                isPromo: false
+            },
+            {
+                nombre: "14 Pro Max 128GB",
+                precio: "650",
+                color: "Deep Purple",
+                salud: "88%",
+                version: "eSIM",
+                incluye: "Cable",
+                imagen: "https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?q=80&w=1000&auto=format&fit=crop",
+                isNew: false,
+                isPromo: false
+            }
+        ];
+
+        // Función para mostrar los productos en pantalla
+        function renderStock() {
+            const container = document.getElementById('stock-container');
+            if (!container) return;
+            container.innerHTML = ''; 
+
+            productosStock.forEach(p => {
+                const card = document.createElement('div');
+                card.className = `glass-card overflow-hidden product-card ${p.isNew ? 'border-sky-500/50 new-shine' : 'border-white/5'} ${p.isPromo ? 'border-amber-500/40' : ''} relative`;
+                
+                card.innerHTML = `
+                    ${p.isPromo ? '<div class="absolute top-4 left-0 bg-amber-500 text-black font-black px-4 py-1 rounded-r-lg z-10 text-[10px] shadow-lg animate-pulse">‼️SÚPER PROMO‼️</div>' : ''}
+                    <div class="h-80 bg-slate-800 relative">
+                        <img src="${p.imagen}" class="w-full h-full object-cover" alt="${p.nombre}">
+                        ${p.isNew ? '<div class="absolute top-4 right-4 bg-sky-500 px-3 py-1 rounded-full text-[10px] font-bold border border-white/20 uppercase tracking-widest text-white shadow-lg">New</div>' : ''}
+                        <div class="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-md p-3 rounded-xl flex justify-between items-center border border-white/10 shadow-xl">
+                            <span class="font-bold text-sm">${p.nombre}</span>
+                            <span class="${p.isPromo ? 'bg-amber-500 text-black' : 'bg-sky-500 text-white'} px-3 py-1 rounded-lg text-sm font-black">$${p.precio}</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <div class="grid grid-cols-2 gap-3 text-[11px] text-slate-300 mb-6">
+                            <span class="flex items-center gap-2"><i class="fas fa-palette text-sky-400"></i> ${p.color}</span>
+                            <span class="flex items-center gap-2"><i class="fas fa-battery-full text-sky-400"></i> Salud ${p.salud}</span>
+                            <span class="flex items-center gap-2"><i class="fas fa-credit-card text-sky-400"></i> Aceptamos Tarjeta</span>
+                            <span class="flex items-center gap-2"><i class="fas fa-check-circle text-sky-400"></i> Garantía IMEIS</span>
+                        </div>
+                        <button onclick="contactWhatsApp('Deseo comprar el ${p.nombre} por $${p.precio}')" class="w-full ${p.isPromo ? 'bg-amber-500 text-black shadow-amber-500/20' : 'bg-green-500 text-white shadow-green-500/20'} py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-95 transition shadow-lg uppercase text-xs">
+                            <i class="fab fa-whatsapp text-lg"></i> Comprar por WhatsApp
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Lógica de inicio
+        window.onload = () => {
+            renderStock();
+            // Generar el QR con la URL actual
+            new QRCode(document.getElementById("qrcode"), { 
+                text: window.location.href, 
+                width: 200, 
+                height: 200,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+
+            // Quitar splash screen
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => splash.style.visibility = 'hidden', 800);
+            }, 1800);
+            showSection('home');
+        };
+
+        // Navegación entre secciones
+        function showSection(sectionId) {
+            ['home', 'catalog', 'order', 'contact', 'qr-modal'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(sectionId);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                const isActive = btn.dataset.section === sectionId;
+                btn.classList.toggle('text-sky-400', isActive);
+                btn.classList.toggle('text-slate-400', !isActive);
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Elegir capacidad en pedidos
+        function setCap(val) {
+            selectedCap = val;
+            document.querySelectorAll('.cap-btn').forEach(btn => {
+                btn.className = btn.innerText === val 
+                    ? "cap-btn flex-1 p-3 rounded-xl bg-sky-500 text-white text-xs font-bold transition" 
+                    : "cap-btn flex-1 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold transition";
+            });
+        }
+
+        // Enviar pedido
+        function sendRequest() {
+            const model = document.getElementById('request-model').value;
+            const message = `📦 CONSULTA BAJO PEDIDO:\n📱 Modelo: ${model}\n💾 Capacidad: ${selectedCap}\n\n¡Hola Medicell Loja! Deseo cotizar este equipo importado de USA.`;
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Contacto directo
+        function contactWhatsApp(msg) {
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Medicell Loja! 👋 ' + msg)}`, '_blank');
+        }
+
+        // Compartir el catálogo
+        function shareCatalog() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Medicell LOJA - Catálogo',
+                    text: 'Mira los últimos iPhones disponibles en Medicell LOJA 📱✨',
+                    url: window.location.href,
+                }).catch(console.error);
+            } else {
+                window.open(`https://wa.me/?text=${encodeURIComponent('Mira el catálogo actualizado de Medicell LOJA 📱✨: ' + window.location.href)}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
