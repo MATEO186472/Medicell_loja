@@ -137,7 +137,6 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <!-- Pantalla de Bienvenida (Splash) -->
     <div id="splash-screen">
         <div class="logo-animation mb-6">
             <i class="fas fa-mobile-alt text-white text-7xl"></i>
@@ -146,7 +145,6 @@
         <p class="text-slate-400 text-sm mt-4 animate-pulse uppercase tracking-[0.2em]">Premium Apple Store</p>
     </div>
 
-    <!-- Navegación Superior -->
     <nav class="p-4 flex justify-between items-center sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
         <div class="flex items-center gap-2">
             <div class="w-10 h-10 bg-sky-500 rounded-full flex items-center justify-center shadow-lg shadow-sky-500/30">
@@ -166,10 +164,8 @@
 
     <main class="flex-grow overflow-y-auto pb-32">
         
-        <!-- SECCIÓN: INICIO (HOME) -->
         <section id="home" class="transition-all duration-500">
             <div class="px-6 pt-6">
-                <!-- Banner Tarjetas -->
                 <div class="glass-card p-4 border-sky-500/20 mb-4 bg-gradient-to-r from-slate-800 to-slate-900 shadow-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex flex-col">
@@ -217,7 +213,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: STOCK (DINÁMICO) -->
         <section id="catalog" class="hidden p-6 transition-all duration-500">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold flex items-center gap-2 uppercase tracking-tight">
@@ -227,10 +222,8 @@
             </div>
             
             <div id="stock-container" class="space-y-8">
-                <!-- Se llena automáticamente con la lista de abajo en el script -->
-            </div>
+                </div>
 
-            <!-- Accesorios -->
             <div class="pt-10">
                 <div class="flex items-center gap-3 mb-4">
                     <h3 class="text-xl font-bold uppercase tracking-tighter">Accesorios</h3>
@@ -267,7 +260,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN: BAJO PEDIDO -->
         <section id="order" class="hidden p-6 transition-all duration-500">
              <h2 class="text-2xl font-bold mb-2 uppercase tracking-tight flex items-center gap-2">
                 <i class="fas fa-sparkles text-sky-400"></i> Bajo Pedido
@@ -311,244 +303,4 @@
                         <button onclick="setCap('512GB')" class="cap-btn flex-1 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold transition">512GB</button>
                     </div>
                 </div>
-                <button onclick="sendRequest()" class="w-full bg-sky-500 hover:bg-sky-600 py-5 rounded-2xl font-bold text-sm uppercase transition active:scale-95 shadow-lg shadow-sky-500/20">
-                    <i class="fab fa-whatsapp mr-2"></i> Consultar Precio
-                </button>
-            </div>
-        </section>
-
-        <!-- SECCIÓN: UBICACIÓN -->
-        <section id="contact" class="hidden p-6 transition-all duration-500">
-            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2 uppercase tracking-tight"><i class="fas fa-store text-sky-400"></i> Ubicación</h2>
-            <div class="space-y-6">
-                <!-- Mapa de Loja -->
-                <div class="h-64 rounded-3xl overflow-hidden border border-white/10 shadow-lg">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.28912534887!2d-79.20645602410313!3d-3.998394995975432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91cb4806d2000001%3A0x6d9006e89a6671e6!2sLoja!5e0!3m2!1ses!2sec!4v1700000000000!5m2!1ses!2sec" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-                
-                <div class="glass-card p-6 border-white/5 text-center">
-                    <p class="text-sm text-slate-200 mb-8 leading-relaxed">
-                        Epiclachima Entre José Antonio Eguiguren Y Colón. <br> 
-                        <span class="text-sky-400 font-bold italic">A Lado de “Steward Gym”</span>
-                    </p>
-                    <div class="flex justify-center gap-6">
-                        <a href="https://instagram.com/medicell_loja" target="_blank" class="w-16 h-16 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition">
-                            <i class="fab fa-instagram text-white text-3xl"></i>
-                        </a>
-                        <a href="https://wa.me/593982336355" target="_blank" class="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg active:scale-90 transition">
-                            <i class="fab fa-whatsapp text-white text-3xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Modal QR Compartir -->
-        <section id="qr-modal" class="hidden p-6 flex flex-col items-center">
-            <div class="glass-card p-8 flex flex-col items-center gap-6 border-sky-500/50">
-                <h3 class="text-sm font-bold uppercase tracking-widest text-sky-400">Comparte el Catálogo</h3>
-                <div id="qrcode"></div>
-                <button onclick="showSection('home')" class="bg-white/10 px-8 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest">Cerrar</button>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Barra de Navegación Inferior -->
-    <nav class="fixed bottom-0 left-0 right-0 glass-card mx-4 my-4 p-2 flex justify-around items-center shadow-2xl z-50 ring-1 ring-white/10">
-        <button onclick="showSection('home')" class="nav-btn flex flex-col items-center p-2 text-sky-400" data-section="home">
-            <i class="fas fa-house text-lg"></i>
-            <span class="text-[8px] mt-1 font-bold">Inicio</span>
-        </button>
-        <button onclick="showSection('catalog')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="catalog">
-            <i class="fas fa-mobile-screen text-lg"></i>
-            <span class="text-[8px] mt-1 font-bold">Stock</span>
-        </button>
-        <button onclick="showSection('order')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="order">
-            <i class="fas fa-clock text-lg"></i>
-            <span class="text-[8px] mt-1 font-bold">Pedidos</span>
-        </button>
-        <button onclick="showSection('contact')" class="nav-btn flex flex-col items-center p-2 text-slate-400" data-section="contact">
-            <i class="fas fa-map-location-dot text-lg"></i>
-            <span class="text-[8px] mt-1 font-bold">Ubicación</span>
-        </button>
-    </nav>
-
-    <script>
-        const WHATSAPP_NUMBER = "593982336355";
-        let selectedCap = "256GB";
-
-        /** * PRODUCTOS EN STOCK DEFINITIVOS
-         * Aquí es donde agregas o quitas celulares. 
-         * Solo copia un bloque {} y pégalo debajo.
-         */
-        const productosStock = [
-            {
-                nombre: "16 Pro Max 256GB",
-                precio: "980",
-                color: "Desert Titanium",
-                salud: "92%",
-                version: "eSIM",
-                incluye: "Caja y Cable",
-                imagen: "https://images.unsplash.com/photo-1727118220970-d790f968600d?q=80&w=1000&auto=format&fit=crop",
-                isNew: true,
-                isPromo: false
-            },
-            {
-                nombre: "15 Pro Max 256GB",
-                precio: "785",
-                color: "Azul Titanium",
-                salud: "89%",
-                version: "eSIM",
-                incluye: "Caja y Cable",
-                imagen: "https://images.unsplash.com/photo-1696429311145-98380892019b?q=80&w=1000&auto=format&fit=crop",
-                isNew: false,
-                isPromo: true
-            },
-            {
-                nombre: "15 Pro 128GB",
-                precio: "690",
-                color: "Natural Titanium",
-                salud: "86%",
-                version: "eSIM",
-                incluye: "Cable",
-                imagen: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1000&auto=format&fit=crop",
-                isNew: false,
-                isPromo: false
-            },
-            {
-                nombre: "14 Pro Max 128GB",
-                precio: "650",
-                color: "Deep Purple",
-                salud: "88%",
-                version: "eSIM",
-                incluye: "Cable",
-                imagen: "https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?q=80&w=1000&auto=format&fit=crop",
-                isNew: false,
-                isPromo: false
-            },
-             {
-                nombre: "17 Pro Max 256GB",
-                precio: "1250", // Puedes cambiar el precio aquí
-                color: "Titanium Silver",
-                salud: "100% Nuevo",
-                version: "eSIM / Física",
-                incluye: "Caja Sellada",
-                imagen: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1000&auto=format&fit=crop",
-                isNew: true,
-                isPromo: false,
-             },
-        ];
-
-        // Función para mostrar los productos en pantalla
-        function renderStock() {
-            const container = document.getElementById('stock-container');
-            if (!container) return;
-            container.innerHTML = ''; 
-
-            productosStock.forEach(p => {
-                const card = document.createElement('div');
-                card.className = `glass-card overflow-hidden product-card ${p.isNew ? 'border-sky-500/50 new-shine' : 'border-white/5'} ${p.isPromo ? 'border-amber-500/40' : ''} relative`;
-                
-                card.innerHTML = `
-                    ${p.isPromo ? '<div class="absolute top-4 left-0 bg-amber-500 text-black font-black px-4 py-1 rounded-r-lg z-10 text-[10px] shadow-lg animate-pulse">‼️SÚPER PROMO‼️</div>' : ''}
-                    <div class="h-80 bg-slate-800 relative">
-                        <img src="${p.imagen}" class="w-full h-full object-cover" alt="${p.nombre}">
-                        ${p.isNew ? '<div class="absolute top-4 right-4 bg-sky-500 px-3 py-1 rounded-full text-[10px] font-bold border border-white/20 uppercase tracking-widest text-white shadow-lg">New</div>' : ''}
-                        <div class="absolute bottom-4 left-4 right-4 bg-black/70 backdrop-blur-md p-3 rounded-xl flex justify-between items-center border border-white/10 shadow-xl">
-                            <span class="font-bold text-sm">${p.nombre}</span>
-                            <span class="${p.isPromo ? 'bg-amber-500 text-black' : 'bg-sky-500 text-white'} px-3 py-1 rounded-lg text-sm font-black">$${p.precio}</span>
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <div class="grid grid-cols-2 gap-3 text-[11px] text-slate-300 mb-6">
-                            <span class="flex items-center gap-2"><i class="fas fa-palette text-sky-400"></i> ${p.color}</span>
-                            <span class="flex items-center gap-2"><i class="fas fa-battery-full text-sky-400"></i> Salud ${p.salud}</span>
-                            <span class="flex items-center gap-2"><i class="fas fa-credit-card text-sky-400"></i> Aceptamos Tarjeta</span>
-                            <span class="flex items-center gap-2"><i class="fas fa-check-circle text-sky-400"></i> Garantía IMEIS</span>
-                        </div>
-                        <button onclick="contactWhatsApp('Deseo comprar el ${p.nombre} por $${p.precio}')" class="w-full ${p.isPromo ? 'bg-amber-500 text-black shadow-amber-500/20' : 'bg-green-500 text-white shadow-green-500/20'} py-4 rounded-2xl font-bold flex items-center justify-center gap-2 active:scale-95 transition shadow-lg uppercase text-xs">
-                            <i class="fab fa-whatsapp text-lg"></i> Comprar por WhatsApp
-                        </button>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Lógica de inicio
-        window.onload = () => {
-            renderStock();
-            // Generar el QR con la URL actual
-            new QRCode(document.getElementById("qrcode"), { 
-                text: window.location.href, 
-                width: 200, 
-                height: 200,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-            });
-
-            // Quitar splash screen
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => splash.style.visibility = 'hidden', 800);
-            }, 1800);
-            showSection('home');
-        };
-
-        // Navegación entre secciones
-        function showSection(sectionId) {
-            ['home', 'catalog', 'order', 'contact', 'qr-modal'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-            const target = document.getElementById(sectionId);
-            if (target) target.classList.remove('hidden');
-
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                const isActive = btn.dataset.section === sectionId;
-                btn.classList.toggle('text-sky-400', isActive);
-                btn.classList.toggle('text-slate-400', !isActive);
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Elegir capacidad en pedidos
-        function setCap(val) {
-            selectedCap = val;
-            document.querySelectorAll('.cap-btn').forEach(btn => {
-                btn.className = btn.innerText === val 
-                    ? "cap-btn flex-1 p-3 rounded-xl bg-sky-500 text-white text-xs font-bold transition" 
-                    : "cap-btn flex-1 p-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold transition";
-            });
-        }
-
-        // Enviar pedido
-        function sendRequest() {
-            const model = document.getElementById('request-model').value;
-            const message = `📦 CONSULTA BAJO PEDIDO:\n📱 Modelo: ${model}\n💾 Capacidad: ${selectedCap}\n\n¡Hola Medicell Loja! Deseo cotizar este equipo importado de USA.`;
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        // Contacto directo
-        function contactWhatsApp(msg) {
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('¡Hola Medicell Loja! 👋 ' + msg)}`, '_blank');
-        }
-
-        // Compartir el catálogo
-        function shareCatalog() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Medicell LOJA - Catálogo',
-                    text: 'Mira los últimos iPhones disponibles en Medicell LOJA 📱✨',
-                    url: window.location.href,
-                }).catch(console.error);
-            } else {
-                window.open(`https://wa.me/?text=${encodeURIComponent('Mira el catálogo actualizado de Medicell LOJA 📱✨: ' + window.location.href)}`, '_blank');
-            }
-        }
-    </script>
-</body>
-</html>
+                <button onclick="sendRequest()" class="w-full bg-sky-500 hover:bg-sky-600 py-5 rounded-2xl font-bold text-sm uppercase
